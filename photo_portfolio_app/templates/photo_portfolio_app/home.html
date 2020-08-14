@@ -18,7 +18,7 @@
     </div>
 <!--------------------------------------------------PRESENTATION END ------------------------------------------------ -->
 
-<!--------------------------------------------------SPECIALTIES START ----------------------------------------------- -->
+<!--------------------------------------------------CATEGORIES START ----------------------------------------------- -->
     <div class="site-section" data-aos="fade">
       <div class="container">
         <div class="row mb-5">
@@ -26,40 +26,20 @@
               <h2 class="site-section-heading text-center">My Specialties</h2>
             </div>
           </div>
+        {% for item in categories %}
         <div class="row">
           <div class="col-md-6">
             <div class="site-block-half d-lg-flex">
-              <div class="image" style="background-image: url('static/photo_portfolio_app/images/img_1.jpg');"></div>
+              <div class="image" style="background-image: url('{{ item.thumbnail.url }}');"></div>
               <div class="text">
-                <h3>Nature Photography</h3>
-                <p>Sunt nesciunt repellat molestias vitae nostrum aliquid laudantium quo voluptatem provident voluptate tenetur illo.</p>
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.text|safe }}</p>
               </div>
             </div>
-            <div class="site-block-half d-lg-flex">
-              <div class="image" style="background-image: url('static/photo_portfolio_app/images/img_3.jpg');"></div>
-              <div class="text">
-                <h3>Portrait Photography</h3>
-                <p>Sunt nesciunt repellat molestias vitae nostrum aliquid laudantium quo voluptatem provident voluptate tenetur illo.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="site-block-half d-lg-flex">
-              <div class="image" style="background-image: url('static/photo_portfolio_app/images/img_2.jpg');"></div>
-              <div class="text">
-                <h3>Wedding Photography</h3>
-                <p>Sunt nesciunt repellat molestias vitae nostrum aliquid laudantium quo voluptatem provident voluptate tenetur illo.</p>
-              </div>
-            </div>
-            <div class="site-block-half d-lg-flex">
-              <div class="image" style="background-image: url('static/photo_portfolio_app/images/img_4.jpg');"></div>
-              <div class="text">
-                <h3>Food & Drink Photography</h3>
-                <p>Sunt nesciunt repellat molestias vitae nostrum aliquid laudantium quo voluptatem provident voluptate tenetur illo.</p>
-              </div>
-            </div>
+
           </div>
         </div>
+        {% endfor %}
       </div>
     </div>
 <!--------------------------------------------------SPECIALTIES END --------------------------------------------------->

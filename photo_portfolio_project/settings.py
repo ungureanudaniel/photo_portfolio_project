@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'photo_portfolio_app',
     'registration',
+    'crispy_forms',
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +148,5 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = False
 '''
+
+CRISPY_TEMPLATE_PACK = 'uni_form'

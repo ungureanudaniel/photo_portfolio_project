@@ -82,6 +82,8 @@
                 <li><a href="{% url 'contact' %}">Contact</a></li>
                 {% if user.is_authenticated %}
                   <li><a href="{% url 'logout' %}">Logout</a></li>
+                  <li><a href="{% url 'add_category' %}">Add category</a></li>
+                  <li><a href="{% url 'add_photo' %}">Add photo</a></li>
                 {% endif %}
               </ul>
             </nav>

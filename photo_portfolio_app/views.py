@@ -1,28 +1,69 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail, BadHeaderError
+from .models import Category, Photo, Tag, About
+from .forms import AddCategoryForm, AddPhotoForm
+from django.template.defaultfilters import slugify
 
 #-----------------HOME PAGE--------------------------
 def HomeView(request):
     template = 'photo_portfolio_app/home.html'
-    return render(request, template, {})
+
+    categories = Category.objects.all()
+
+    context = {
+        'categories': categories,
+    }
+    return render(request, template, context)
 
 
 #-----------------ADD A NEW PHOTO PAGE--------------------------
 def AddPhotoView(request):
-    template = 'photo_portfolio_app/home.html'
-    return render(request, template, {})
+    template = 'photo_portfolio_app/add_photo.html'
+    common_tags = Photo.tags.most_common()[:4]
+    form = AddPhotoForm(request.POST, request.FILES or None)
+    if form.is_valid():
+        newphoto = form.save(commit=False)
+        newphoto.slug = slugify(newphoto.image_title)
+        newphoto.save()
+        # COMMAND TO SAVE THE FORM USING THE TAGS MANAGER
+        form.save_m2m()
+        return redirect('/')
+
+    context = {
+        'common_tags': common_tags,
+        'form': form,
+    }
+    return render(request, template, context)
 
 
 #-----------------SERVICES PAGE--------------------------
 def ServicesView(request):
     template = 'photo_portfolio_app/services.html'
-    return render(request, template, {})
+    categories = Category.objects.all()
+
+    context = {
+        'categories': categories,
+    }
+    return render(request, template, context)
 
 
 #-----------------PHOTOS CATEGORIES PAGE--------------------------
-def CategoriesView(request):
+def PhotosListView(request):
     template = 'photo_portfolio_app/categories.html'
     return render(request, template, {})
+
+def AddCategoryView(request):
+    template = 'photo_portfolio_app/add_categories.html'
+    form = AddCategoryForm(request.POST, request.FILES or None)
+    if form.is_valid():
+        form.save()
+        return redirect('/')
+
+    context = {
+        'form': form,
+    }
+    return render(request, template, context)
+
 
 
 #-----------------ABOUT ME PAGE--------------------------
