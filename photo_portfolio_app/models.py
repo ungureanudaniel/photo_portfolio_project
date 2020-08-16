@@ -1,20 +1,21 @@
 from django.db import models
 from taggit.managers import TaggableManager
-from datetime import datetime, date
+# from datetime import datetime, date
+# from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Tag(models.Model):
-    name = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.name
+# class Tag(models.Model):
+#     name = models.CharField(max_length=200)
+#
+#     def __str__(self):
+#         return self.name
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
     text = models.TextField()
-    thumbnail = models.FileField(upload_to = "images/", default= "")
-    specialties = models.BooleanField(default=False)
+    thumbnail = models.FileField(upload_to = "static/photo_portfolio_app/images/", default= "")
+    specialties = models.BooleanField('Check here if you want this photos category to be included in your specialties, on the home page and services page', default=False)
 
     def __str__(self):
         return self.name
@@ -23,17 +24,30 @@ class Category(models.Model):
 class About(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
+    thumbnail = models.FileField(upload_to="static/photo_portfolio_app/images/", default="")
+
 
     def __str__(self):
         return self.title
 
+
+
+class Skills(models.Model):
+    skill = models.CharField(max_length=200)
+    percentage = models.IntegerField()
+
+    def __str__(self):
+        return self.skill
+
 class Photo(models.Model):
     image = models.ImageField(upload_to = "images/", default= "")
-    image_title = models.CharField(max_length=200)
+    image_title = models.CharField('A short title, max two words', max_length=200)
+    # author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_taken = models.DateField(auto_now_add=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = TaggableManager()
     slug = models.SlugField(unique=True, max_length=100, default=image_title)
+    featured = models.BooleanField('Check this if you want picture to be shown as featured on the home page', default=False)
 
     def __str__(self):
         return self.image_title

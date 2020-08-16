@@ -1,17 +1,40 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail, BadHeaderError
-from .models import Category, Photo, Tag, About
-from .forms import AddCategoryForm, AddPhotoForm
+from .models import Category, Photo, About, Skills
+from .forms import AddCategoryForm, AddPhotoForm, AddAboutForm, AddSkillsForm
 from django.template.defaultfilters import slugify
+from django.db.models import Count
 
-#-----------------HOME PAGE--------------------------
+
+#-----------------CATEGORY COUNT--------------------------
+def get_category_count():
+    queryset = Photo.objects.values_list('category').annotate(Count('category'))
+    count = queryset.values('category', 'category__count')
+    return count
+
+#-----------------HOME PAGE-----------------------------
 def HomeView(request):
     template = 'photo_portfolio_app/home.html'
+    category_count = get_category_count()
 
-    categories = Category.objects.all()
+    other_specialty = Category.objects.filter(specialties=False)
+    specialty = Category.objects.filter(specialties=True)
+    first_three_photos = Photo.objects.filter(featured=True)[:3]
+    next_three_photos = Photo.objects.filter(featured=True)[3:6]
+    last_three_photos = Photo.objects.filter(featured=True)[6:9]
+
+    firsttwo_specialty = Category.objects.filter(specialties=True)[:2]
+    lasttwo_specialty = Category.objects.filter(specialties=True)[2:4]
 
     context = {
-        'categories': categories,
+        'firsttwo_specialty': firsttwo_specialty,
+        'lasttwo_specialty': lasttwo_specialty,
+        'first_three_photos': first_three_photos,
+        'next_three_photos': next_three_photos,
+        'last_three_photos': last_three_photos,
+        'category_count': category_count,
+        'other_specialty': other_specialty,
+        'specialty': specialty,
     }
     return render(request, template, context)
 
@@ -39,10 +62,11 @@ def AddPhotoView(request):
 #-----------------SERVICES PAGE--------------------------
 def ServicesView(request):
     template = 'photo_portfolio_app/services.html'
-    categories = Category.objects.all()
-
+    other_specialty = Category.objects.filter(specialties=False)
+    specialty = Category.objects.filter(specialties=True)
     context = {
-        'categories': categories,
+        'specialty': specialty,
+        'other_specialty': other_specialty,
     }
     return render(request, template, context)
 
@@ -66,10 +90,52 @@ def AddCategoryView(request):
 
 
 
+#-----------------ADD ABOUT ME PAGE--------------------------
+def AddAboutView(request):
+    template = 'photo_portfolio_app/add_about.html'
+    form = AddAboutForm(request.POST, request.FILES or None)
+    if form.is_valid():
+        about = form.save(commit=False)
+        about.slug = slugify(about.title)
+        about.save()
+        # COMMAND TO SAVE THE FORM USING THE TAGS MANAGER
+        form.save()
+        return redirect('about')
+
+    context = {
+        'form': form,
+    }
+    return render(request, template, context)
+
+
+def AddSkillsView(request):
+    template = 'photo_portfolio_app/add_skills.html'
+    form = AddSkillsForm(request.POST, request.FILES or None)
+    if form.is_valid():
+        newskill = form.save(commit=False)
+        newskill.slug = slugify(newskill.skill)
+        newskill.save()
+        # COMMAND TO SAVE THE FORM USING THE TAGS MANAGER
+        form.save()
+        return redirect('add_skill')
+
+    context = {
+        'form': form,
+    }
+    return render(request, template, context)
+
+
 #-----------------ABOUT ME PAGE--------------------------
 def AboutView(request):
     template = 'photo_portfolio_app/about.html'
-    return render(request, template, {})
+    about_me = About.objects.all().order_by('-id')
+    skills = Skills.objects.all().order_by('-percentage')
+
+    context = {
+        'skills': skills,
+        'about_me': about_me,
+    }
+    return render(request, template, context)
 
 
 #-----------------CONTACT ME PAGE--------------------------

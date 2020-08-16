@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300i,400,700" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
 
     <link rel="stylesheet" href="{% static 'photo_portfolio_app/css/bootstrap.min.css' %}">
@@ -82,8 +83,10 @@
                 <li><a href="{% url 'contact' %}">Contact</a></li>
                 {% if user.is_authenticated %}
                   <li><a href="{% url 'logout' %}">Logout</a></li>
-                  <li><a href="{% url 'add_category' %}">Add category</a></li>
+                  <li><a href="{% url 'add_category' %}">Add specialties</a></li>
                   <li><a href="{% url 'add_photo' %}">Add photo</a></li>
+                  <li><a href="{% url 'add_about' %}">Add about yourself</a></li>
+                  <li><a href="{% url 'add_skill' %}">Add skills</a></li>
                 {% endif %}
               </ul>
             </nav>
@@ -125,7 +128,7 @@
         <div class="row">
           <div class="col-lg-4">
             <div class="mb-5">
-              <h3 class="footer-heading mb-4">About Fotograp</h3>
+              <h3 class="footer-heading mb-4">About Me</h3>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe pariatur reprehenderit vero atque, consequatur id ratione, et non dignissimos culpa? Ut veritatis, quos illum totam quis blanditiis, minima minus odio!</p>
             </div>
           </div>

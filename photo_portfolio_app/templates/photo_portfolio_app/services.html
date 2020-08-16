@@ -23,40 +23,44 @@
               <h2 class="site-section-heading text-center">My Specialties</h2>
             </div>
         </div>
+
         <div class="row">
+          {% for item in specialty %}
           <div class="col-md-6">
             <div class="site-block-half d-lg-flex" data-aos="fade-up" data-aos-delay="100">
-              <div class="image" style="background-image: url('images/img_1.jpg');"></div>
+              <div class="image" style="background-image: url('{{ item.thumbnail.url }}');"></div>
               <div class="text">
-                <h3>Nature Photography</h3>
-                <p>Sunt nesciunt repellat molestias vitae nostrum aliquid laudantium quo voluptatem provident voluptate tenetur illo.</p>
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.text }}</p>
               </div>
             </div>
-            <div class="site-block-half d-lg-flex" data-aos="fade-up" data-aos-delay="200">
-              <div class="image" style="background-image: url('images/img_3.jpg');"></div>
-              <div class="text">
-                <h3>Portrait Photography</h3>
-                <p>Sunt nesciunt repellat molestias vitae nostrum aliquid laudantium quo voluptatem provident voluptate tenetur illo.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="site-block-half d-lg-flex" data-aos="fade-up" data-aos-delay="300">
-              <div class="image" style="background-image: url('images/img_2.jpg');"></div>
-              <div class="text">
-                <h3>Wedding Photography</h3>
-                <p>Sunt nesciunt repellat molestias vitae nostrum aliquid laudantium quo voluptatem provident voluptate tenetur illo.</p>
-              </div>
-            </div>
-            <div class="site-block-half d-lg-flex" data-aos="fade-up" data-aos-delay="400">
-              <div class="image" style="background-image: url('images/img_4.jpg');"></div>
-              <div class="text">
-                <h3>Food & Drink Photography</h3>
-                <p>Sunt nesciunt repellat molestias vitae nostrum aliquid laudantium quo voluptatem provident voluptate tenetur illo.</p>
-              </div>
-            </div>
-          </div>
+
+<!--            <div class="site-block-half d-lg-flex" data-aos="fade-up" data-aos-delay="200">-->
+<!--              <div class="image" style="background-image: url('images/img_3.jpg');"></div>-->
+<!--              <div class="text">-->
+<!--                <h3>Portrait Photography</h3>-->
+<!--                <p>Sunt nesciunt repellat molestias vitae nostrum aliquid laudantium quo voluptatem provident voluptate tenetur illo.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-md-6">-->
+<!--            <div class="site-block-half d-lg-flex" data-aos="fade-up" data-aos-delay="300">-->
+<!--              <div class="image" style="background-image: url('images/img_2.jpg');"></div>-->
+<!--              <div class="text">-->
+<!--                <h3>Wedding Photography</h3>-->
+<!--                <p>Sunt nesciunt repellat molestias vitae nostrum aliquid laudantium quo voluptatem provident voluptate tenetur illo.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="site-block-half d-lg-flex" data-aos="fade-up" data-aos-delay="400">-->
+<!--              <div class="image" style="background-image: url('images/img_4.jpg');"></div>-->
+<!--              <div class="text">-->
+<!--                <h3>Food & Drink Photography</h3>-->
+<!--                <p>Sunt nesciunt repellat molestias vitae nostrum aliquid laudantium quo voluptatem provident voluptate tenetur illo.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
+          {% endfor %}
       </div>
     </div>
 
@@ -71,14 +75,16 @@
             </div>
           </div>
           <div class="row">
+            {% for item in other_specialty %}
             <div class="col-md-6 col-lg-6 col-xl-4 text-center mb-5 mb-lg-5" data-aos="fade" data-aos-delay="100">
               <div class="h-100 p-4 p-lg-5 bg-light site-block-feature-7">
                 <span class="icon flaticon-camera display-3 text-primary mb-4 d-block"></span>
-                <h3 class="text-black h4">Camera</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum exercitationem quae id dolorum debitis.</p>
+                <h3 class="text-black h4">{{ item.name|title }}</h3>
+                <p>{{ item.text|safe }}</p>
                 <p><strong class="font-weight-bold text-primary">$29</strong></p>
               </div>
             </div>
+            {% endfor %}
             <div class="col-md-6 col-lg-6 col-xl-4 text-center mb-5 mb-lg-5" data-aos="fade" data-aos-delay="200">
               <div class="h-100 p-4 p-lg-5 bg-light site-block-feature-7">
                 <span class="icon flaticon-picture display-3 text-primary mb-4 d-block"></span>
@@ -140,7 +146,7 @@
        </div>
      </div>
    </div>
-
+      <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></div>
 
   
 {% endblock %}
