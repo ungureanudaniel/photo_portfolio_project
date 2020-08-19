@@ -63,20 +63,14 @@
               <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
                 <li class="active"><a href="{% url 'home' %}">Home</a></li>
                 <li class="has-children">
-                  <a href="{% url 'categories' %}">Photography</a>
+                  <a href="{% url 'single' %}">Photography</a>
+
                   <ul class="dropdown">
-                    <li><a href="#">Nature</a></li>
-                    <li><a href="#">Portrait</a></li>
-                    <li><a href="#">Wedding</a></li>
-                    <li class="has-children">
-                      <a href="#">Sub Menu</a>
-                      <ul class="dropdown">
-                        <li><a href="#">Menu One</a></li>
-                        <li><a href="#">Menu Two</a></li>
-                        <li><a href="#">Menu Three</a></li>
-                      </ul>
-                    </li>
+                    {% for item in cat_menu %}
+                    <li class="text-dark"><a  class="text-dark" href="{% url 'category' pk=item.id %}">{{ item.name|title }}</a></li>
+                    {% endfor %}
                   </ul>
+
                 </li>
                 <li><a href="{% url 'services' %}">Services</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>

@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import HomeView, PhotosListView, ServicesView, AboutView, ContactView, AddCategoryView, AddPhotoView, AddAboutView, AddSkillsView
+from .views import HomeView, CategoryView, ServicesView, AboutView, ContactView, AddCategoryView, AddPhotoView, AddAboutView, AddSkillsView, SingleView
 
 urlpatterns = [
     path('', HomeView, name='home'),
-    path('categories/', PhotosListView, name='categories'),
+    path('category/<int:pk>', CategoryView, name='category'),
     path('services/', ServicesView, name='services'),
+    path('single/', SingleView, name='single'),
     path('about/', AboutView, name='about'),
     path('contact/', ContactView, name='contact'),
     path('add_category/', AddCategoryView, name='add_category'),

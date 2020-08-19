@@ -1,5 +1,7 @@
 from django.db import models
 from taggit.managers import TaggableManager
+from django.urls import reverse
+from django.contrib.auth.models import User
 # from datetime import datetime, date
 # from django.contrib.auth.models import User
 
@@ -15,11 +17,13 @@ class Category(models.Model):
     name = models.CharField(max_length=200)
     text = models.TextField()
     thumbnail = models.FileField(upload_to = "static/photo_portfolio_app/images/", default= "")
-    specialties = models.BooleanField('Check here if you want this photos category to be included in your specialties, on the home page and services page', default=False)
+    specialties = models.BooleanField('Check here if you want this photos category to be included in your "specialties", on the home page and services page, otherwise if unchecked it will appear in "Other services"', default=False)
 
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('home')
 
 class About(models.Model):
     title = models.CharField(max_length=200)
@@ -40,9 +44,10 @@ class Skills(models.Model):
         return self.skill
 
 class Photo(models.Model):
-    image = models.ImageField(upload_to = "images/", default= "")
+    image = models.ImageField(upload_to = "images/", default="")
     image_title = models.CharField('A short title, max two words', max_length=200)
-    # author = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.TextField('A short description...', max_length=500, default="")
+    # author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     date_taken = models.DateField(auto_now_add=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = TaggableManager()
@@ -56,7 +61,8 @@ class Photo(models.Model):
         ordering = ["-date_taken"]
 
     def get_absolute_url(self):
-        return reverse('home')
+        #return reverse('home')
+        return reverse('category', kwargs={'cats': self.cats})
 
     # author = models.ForeignKey(User, on_delete=models.CASCADE)
     # title = models.CharField(max_length=255)
