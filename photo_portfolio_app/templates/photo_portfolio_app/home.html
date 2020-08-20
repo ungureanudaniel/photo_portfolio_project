@@ -7,7 +7,7 @@
       <div class="container">
         <div class="row align-items-center justify-content-center">
           <div class="col-md-7 text-center" data-aos="fade-up">
-            <h1>I'm  a Professional Photographer</h1>
+            <h1>I'm  Daniel, a Professional Photographer </h1>
           </div>
         </div>
       </div>
@@ -34,6 +34,10 @@
               <div class="image" style="background-image: url('{{ item.thumbnail.url }}');"></div>
               <div class="text">
                 <h3><a href="#" class="text-success;">{{ item.name|title }}</a></h3>
+                {% if user.is_authenticated %}
+                <a href="{% url 'edit_category' item.slug %}"><i class="fa fa-pencil text-danger"></i></a>
+                <a href="{% url 'delete_category' item.slug %}"><i class="fa fa-trash text-danger"></i></a>
+                {% endif %}
                 <p>{{ item.text|safe }}</p>
               </div>
             </div>
@@ -50,6 +54,10 @@
               <div class="image" style="background-image: url('{{ item.thumbnail.url }}');"></div>
                 <div class="text">
                   <h3><a href="#" class="text-success;">{{ item.name|title }}</a></h3>
+                  {% if user.is_authenticated %}
+                  <a href="{% url 'edit_category' item.slug %}"><i class="fa fa-pencil text-danger"></i></a>
+                  <a href="{% url 'delete_category' item.slug %}"><i class="fa fa-trash text-danger"></i></a>
+                  {% endif %}
                   <p>{{ item.text|safe }}</p>
                 </div>
             </div>

@@ -30,10 +30,11 @@ class AddPhotoForm(forms.ModelForm):
 
     class Meta:
         model = Photo
-        fields = ['image', 'image_title', 'category', 'tags', 'featured']
+        fields = ['image', 'image_title', 'description', 'category', 'tags', 'featured']
 
         widgets = {
             'image_title': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a name...'}),
+            'description': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a description...'}),
             # 'date_taken': forms.DateTime(),
             'category': forms.Select(choices=choices_list, attrs = {'class': 'form-control'}),
         }

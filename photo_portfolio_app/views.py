@@ -1,5 +1,6 @@
 from typing import Dict, Any
-
+from django.contrib import messages
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail, BadHeaderError
 from .models import Category, Photo, About, Skills
@@ -45,19 +46,16 @@ def HomeView(request):
     return render(request, template, context)
 
 
-#-----------------ADD A NEW PHOTO PAGE--------------------------
+#----------------------ADD A NEW PHOTO PAGE------------------------------------
 def AddPhotoView(request):
     template = 'photo_portfolio_app/add_photo.html'
     common_tags = Photo.tags.most_common()[:4]
     cat_menu = Category.objects.all()
     form = AddPhotoForm(request.POST, request.FILES or None)
     if form.is_valid():
-        newphoto = form.save(commit=False)
-        newphoto.slug = slugify(newphoto.image_title)
-        newphoto.save()
         # COMMAND TO SAVE THE FORM USING THE TAGS MANAGER
-        form.save_m2m()
-        return redirect('home')
+        form.save()
+        return redirect('/')
 
     context = {
         'cat_menu': cat_menu,
@@ -66,6 +64,40 @@ def AddPhotoView(request):
     }
     return render(request, template, context)
 
+
+#-----------------------------EDIT PHOTO --------------------------------------
+def EditPhotoView(request, pk):
+    template = 'photo_portfolio_app/edit_photo.html'
+    specific_photo_grab = Photo.objects.get(id=pk)
+    form = AddPhotoForm(instance=specific_photo_grab)
+    if request.method == "POST":
+        form = AddCategoryForm(request.POST or None, request.FILES or None, instance=specific_photo_grab)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {
+        'form': form,
+        'specific_photo_grab': specific_photo_grab,
+    }
+    return render(request, template, context)
+
+
+#-----------------------------DELETE PHOTO --------------------------------------
+def DeletePhotoView(request, slug):
+    template = 'photo_portfolio_app/delete_photo.html'
+    # fetch the object related to passed slug
+    category = Category.objects.get(slug=slug)
+
+    if request.method == "POST":
+        category.delete()
+        # messages.success(request, 'Category has been deleted!')
+        return redirect("/")
+
+    context = {
+        'category': category,
+    }
+    return render(request, template, context)
 
 #-----------------SERVICES PAGE--------------------------
 def ServicesView(request):
@@ -83,18 +115,21 @@ def ServicesView(request):
 
 
 #-----------------PHOTOS CATEGORIES PAGE--------------------------
-def CategoryView(request, pk):
+def CategoryView(request, slug):
     template = 'photo_portfolio_app/category.html'
     specialty = Category.objects.filter(specialties=True)
-    photos_category = Photo.objects.all()
+    category = get_object_or_404(Category, slug=slug)
+    photos_by_category = Photo.objects.filter(category=category)
     category_count = get_category_count()
-    print(category_count)
-    print(photos_category)
+    # print(category_count)
+    print(category)
     cat_menu = Category.objects.all()
     context = {
+        'slug': slug,
+        'category': category,
         'cat_menu': cat_menu,
         'specialty': specialty,
-        'photos_category': photos_category,
+        'photos_by_category': photos_by_category,
     }
     return render(request, template, context)
 
@@ -104,7 +139,7 @@ def AddCategoryView(request):
     cat_menu = Category.objects.all()
     if form.is_valid():
         form.save()
-        return redirect('category')
+        return redirect('/')
 
     context = {
         'cat_menu': cat_menu,
@@ -112,6 +147,39 @@ def AddCategoryView(request):
     }
     return render(request, template, context)
 
+#-----------------------------EDIT CATEGORIES --------------------------------------
+def EditCategoryView(request, slug):
+    template = 'photo_portfolio_app/edit_category.html'
+    category = Category.objects.get(slug=slug)
+    form = AddCategoryForm(instance=category)
+    if request.method == "POST":
+        form = AddCategoryForm(request.POST or None, request.FILES or None, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    context = {
+        'form': form,
+        'category': category,
+    }
+    return render(request, template, context)
+
+
+#-----------------------------DELETE CATEGORIES --------------------------------------
+def DeleteCategoryView(request, slug):
+    template = 'photo_portfolio_app/delete_category.html'
+    # fetch the object related to passed slug
+    category = Category.objects.get(slug=slug)
+
+    if request.method == "POST":
+        category.delete()
+        # messages.success(request, 'Category has been deleted!')
+        return redirect("/")
+
+    context = {
+        'category': category,
+    }
+    return render(request, template, context)
 
 
 #-----------------ADD ABOUT ME PAGE--------------------------
@@ -125,7 +193,7 @@ def AddAboutView(request):
         about.save()
         # COMMAND TO SAVE THE FORM USING THE TAGS MANAGER
         form.save()
-        return redirect('about')
+        return redirect('/')
 
     context = {
         'cat_menu': cat_menu,

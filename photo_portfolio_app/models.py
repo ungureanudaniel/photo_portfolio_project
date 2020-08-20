@@ -1,6 +1,7 @@
 from django.db import models
 from taggit.managers import TaggableManager
 from django.urls import reverse
+from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 # from datetime import datetime, date
 # from django.contrib.auth.models import User
@@ -15,9 +16,14 @@ from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, max_length=200, default="")
     text = models.TextField()
     thumbnail = models.FileField(upload_to = "static/photo_portfolio_app/images/", default= "")
     specialties = models.BooleanField('Check here if you want this photos category to be included in your "specialties", on the home page and services page, otherwise if unchecked it will appear in "Other services"', default=False)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -49,10 +55,14 @@ class Photo(models.Model):
     description = models.TextField('A short description...', max_length=500, default="")
     # author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     date_taken = models.DateField(auto_now_add=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default="")
     tags = TaggableManager()
-    slug = models.SlugField(unique=True, max_length=100, default=image_title)
+    slug = models.SlugField(unique=True, max_length=100, default="")
     featured = models.BooleanField('Check this if you want picture to be shown as featured on the home page', default=False)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.image_title)
+        super(Photo, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.image_title
