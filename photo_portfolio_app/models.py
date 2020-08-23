@@ -26,7 +26,7 @@ class Category(models.Model):
         super(Category, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return self.slug
 
     def get_absolute_url(self):
         return reverse('home')
@@ -48,7 +48,7 @@ class Skills(models.Model):
 
     def __str__(self):
         return self.skill
-
+#
 class Photo(models.Model):
     image = models.ImageField(upload_to = "images/", default="")
     image_title = models.CharField('A short title, max two words', max_length=200)
@@ -60,10 +60,6 @@ class Photo(models.Model):
     slug = models.SlugField(unique=True, max_length=100, default="")
     featured = models.BooleanField('Check this if you want picture to be shown as featured on the home page', default=False)
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.image_title)
-        super(Photo, self).save(*args, **kwargs)
-
     def __str__(self):
         return self.image_title
 
@@ -71,23 +67,22 @@ class Photo(models.Model):
         ordering = ["-date_taken"]
 
     def get_absolute_url(self):
-        #return reverse('home')
-        return reverse('category', kwargs={'cats': self.cats})
-
-    # author = models.ForeignKey(User, on_delete=models.CASCADE)
-    # title = models.CharField(max_length=255)
-    # image = models.FileField(upload_to='blog_image', blank=True)
-    # text = RichTextField(blank=True, null=True)
-    # #text = models.TextField()
-    # category = models.CharField(max_length=20, default='recipes')
-    # comment_count = models.IntegerField(default=0)
-    # views_count = models.IntegerField(default=0)
-    # featured = models.BooleanField()
-    # #seo_title = models.CharField(max_length=60, blank=True, null=True)
-    # #seo_text = models.CharField(max_length=165, blank=True, null=True)
-    # #slug = models.SlugField(max_length=255, unique=True)
-    # created_date = models.DateTimeField(auto_now_add=True)
-    # #updated_date = models.DateTimeField(auto_now_add=True)
-    # status = models.CharField(max_length=10, default='Draft', choices=STATUS_CHOICES)
-    # previous_post = models.ForeignKey('self', related_name='previous', on_delete=models.SET_NULL, blank=True, null=True)
-    # next_post = models.ForeignKey('self', related_name='next', on_delete=models.SET_NULL, blank=True, null=True)
+        return reverse('home')
+#
+#     # author = models.ForeignKey(User, on_delete=models.CASCADE)
+#     # title = models.CharField(max_length=255)
+#     # image = models.FileField(upload_to='blog_image', blank=True)
+#     # text = RichTextField(blank=True, null=True)
+#     # #text = models.TextField()
+#     # category = models.CharField(max_length=20, default='recipes')
+#     # comment_count = models.IntegerField(default=0)
+#     # views_count = models.IntegerField(default=0)
+#     # featured = models.BooleanField()
+#     # #seo_title = models.CharField(max_length=60, blank=True, null=True)
+#     # #seo_text = models.CharField(max_length=165, blank=True, null=True)
+#     # #slug = models.SlugField(max_length=255, unique=True)
+#     # created_date = models.DateTimeField(auto_now_add=True)
+#     # #updated_date = models.DateTimeField(auto_now_add=True)
+#     # status = models.CharField(max_length=10, default='Draft', choices=STATUS_CHOICES)
+#     # previous_post = models.ForeignKey('self', related_name='previous', on_delete=models.SET_NULL, blank=True, null=True)
+#     # next_post = models.ForeignKey('self', related_name='next', on_delete=models.SET_NULL, blank=True, null=True)

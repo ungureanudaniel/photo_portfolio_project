@@ -1,6 +1,4 @@
-from typing import Dict, Any
-from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail, BadHeaderError
 from .models import Category, Photo, About, Skills
@@ -20,6 +18,7 @@ def HomeView(request):
     template = 'photo_portfolio_app/home.html'
     category_count = get_category_count()
     print(category_count)
+    about = About.objects.all()[:1]
     other_specialty = Category.objects.filter(specialties=False)
     specialty = Category.objects.filter(specialties=True)
     first_three_photos = Photo.objects.filter(featured=True)[:3]
@@ -33,6 +32,7 @@ def HomeView(request):
     print(cat_menu)
 
     context = {
+        'about': about,
         'cat_menu': cat_menu,
         'firsttwo_specialty': firsttwo_specialty,
         'lasttwo_specialty': lasttwo_specialty,
@@ -49,15 +49,21 @@ def HomeView(request):
 #----------------------ADD A NEW PHOTO PAGE------------------------------------
 def AddPhotoView(request):
     template = 'photo_portfolio_app/add_photo.html'
+    about = About.objects.all()[:1]
     common_tags = Photo.tags.most_common()[:4]
     cat_menu = Category.objects.all()
-    form = AddPhotoForm(request.POST, request.FILES or None)
-    if form.is_valid():
+    form = AddPhotoForm()
+    if request.method == "POST":
+        form = AddPhotoForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.save()
         # COMMAND TO SAVE THE FORM USING THE TAGS MANAGER
-        form.save()
-        return redirect('/')
+            form.save_m2m()
+            return redirect('/')
 
     context = {
+        'about': about,
         'cat_menu': cat_menu,
         'common_tags': common_tags,
         'form': form,
@@ -77,6 +83,7 @@ def EditPhotoView(request, pk):
             return redirect('/')
 
     context = {
+        'about': about,
         'form': form,
         'specific_photo_grab': specific_photo_grab,
     }
@@ -95,6 +102,7 @@ def DeletePhotoView(request, slug):
         return redirect("/")
 
     context = {
+        'about': about,
         'category': category,
     }
     return render(request, template, context)
@@ -104,9 +112,10 @@ def ServicesView(request):
     template = 'photo_portfolio_app/services.html'
     other_specialty = Category.objects.filter(specialties=False)
     specialty = Category.objects.filter(specialties=True)
-
+    about = About.objects.all()[:1]
     cat_menu = Category.objects.all()
     context = {
+        'about': about,
         'cat_menu': cat_menu,
         'specialty': specialty,
         'other_specialty': other_specialty,
@@ -114,7 +123,7 @@ def ServicesView(request):
     return render(request, template, context)
 
 
-#-----------------PHOTOS CATEGORIES PAGE--------------------------
+#-----------------PHOTOS SINGLE CATEGORY PAGE--------------------------
 def CategoryView(request, slug):
     template = 'photo_portfolio_app/category.html'
     specialty = Category.objects.filter(specialties=True)
@@ -123,8 +132,10 @@ def CategoryView(request, slug):
     category_count = get_category_count()
     # print(category_count)
     print(category)
+    about = About.objects.all()[:1]
     cat_menu = Category.objects.all()
     context = {
+        'about': about,
         'slug': slug,
         'category': category,
         'cat_menu': cat_menu,
@@ -133,8 +144,27 @@ def CategoryView(request, slug):
     }
     return render(request, template, context)
 
+#-----------------PHOTOS ALL CATEGORIES PAGE--------------------------
+def AllCategoriesView(request):
+    template = 'photo_portfolio_app/all_categories.html'
+    specialty = Category.objects.filter(specialties=True)
+    all_photos = Photo.objects.all()
+    category_count = get_category_count()
+    # print(category_count)
+    print(category)
+    about = About.objects.all()[:1]
+    cat_menu = Category.objects.all()
+    context = {
+        'about': about,
+        'all_photos': all_photos,
+        'cat_menu': cat_menu,
+        'specialty': specialty,
+    }
+    return render(request, template, context)
+
 def AddCategoryView(request):
     template = 'photo_portfolio_app/add_categories.html'
+    about = About.objects.all()[:1]
     form = AddCategoryForm(request.POST, request.FILES or None)
     cat_menu = Category.objects.all()
     if form.is_valid():
@@ -142,6 +172,7 @@ def AddCategoryView(request):
         return redirect('/')
 
     context = {
+        'about': about,
         'cat_menu': cat_menu,
         'form': form,
     }
@@ -150,6 +181,7 @@ def AddCategoryView(request):
 #-----------------------------EDIT CATEGORIES --------------------------------------
 def EditCategoryView(request, slug):
     template = 'photo_portfolio_app/edit_category.html'
+    about = About.objects.all()[:1]
     category = Category.objects.get(slug=slug)
     form = AddCategoryForm(instance=category)
     if request.method == "POST":
@@ -159,6 +191,7 @@ def EditCategoryView(request, slug):
             return redirect('/')
 
     context = {
+        'about': about,
         'form': form,
         'category': category,
     }
@@ -168,6 +201,7 @@ def EditCategoryView(request, slug):
 #-----------------------------DELETE CATEGORIES --------------------------------------
 def DeleteCategoryView(request, slug):
     template = 'photo_portfolio_app/delete_category.html'
+    about = About.objects.all()[:1]
     # fetch the object related to passed slug
     category = Category.objects.get(slug=slug)
 
@@ -177,6 +211,7 @@ def DeleteCategoryView(request, slug):
         return redirect("/")
 
     context = {
+        'about': about,
         'category': category,
     }
     return render(request, template, context)
@@ -185,6 +220,7 @@ def DeleteCategoryView(request, slug):
 #-----------------ADD ABOUT ME PAGE--------------------------
 def AddAboutView(request):
     template = 'photo_portfolio_app/add_about.html'
+    about = About.objects.all()[:1]
     form = AddAboutForm(request.POST, request.FILES or None)
     cat_menu = Category.objects.all()
     if form.is_valid():
@@ -196,6 +232,7 @@ def AddAboutView(request):
         return redirect('/')
 
     context = {
+        'about': about,
         'cat_menu': cat_menu,
         'form': form,
     }
@@ -204,6 +241,7 @@ def AddAboutView(request):
 
 def AddSkillsView(request):
     template = 'photo_portfolio_app/add_skills.html'
+    about = About.objects.all()[:1]
     form = AddSkillsForm(request.POST, request.FILES or None)
     cat_menu = Category.objects.all()
     if form.is_valid():
@@ -215,6 +253,7 @@ def AddSkillsView(request):
         return redirect('/')
 
     context = {
+        'about': about,
         'cat_menu': cat_menu,
         'form': form,
     }
@@ -224,21 +263,23 @@ def AddSkillsView(request):
 #-----------------ABOUT ME PAGE--------------------------
 def AboutView(request):
     template = 'photo_portfolio_app/about.html'
-    about_me = About.objects.all().order_by('-id')
+    about = About.objects.all().order_by('-id')
     skills = Skills.objects.all().order_by('-percentage')
     cat_menu = Category.objects.all()
     context = {
         'cat_menu': cat_menu,
         'skills': skills,
-        'about_me': about_me,
+        'about': about,
     }
     return render(request, template, context)
 
 def SingleView(request):
     template = 'photo_portfolio_app/single.html'
+    about = About.objects.all()[:1]
     single_photo = Photo.objects.all().order_by('-date_taken')
     cat_menu = Category.objects.all()
     context = {
+        'about': about,
         'cat_menu': cat_menu,
         'single_photo': single_photo,
     }
@@ -248,6 +289,7 @@ def SingleView(request):
 #-----------------CONTACT ME PAGE--------------------------
 def ContactView(request):
     template = 'photo_portfolio_app/contact.html'
+    about = About.objects.all()[:1]
     cat_menu = Category.objects.all()
     if request.method == "POST":
         message_fname = request.POST['message-fname']
@@ -266,6 +308,7 @@ def ContactView(request):
 
 
         context = {
+            'about': about,
             'cat_menu': cat_menu,
             'message_fname': message_fname,
             'message_lname': message_lname,

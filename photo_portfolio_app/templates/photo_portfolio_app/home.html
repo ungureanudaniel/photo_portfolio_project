@@ -33,7 +33,7 @@
             <div class="site-block-half d-lg-flex">
               <div class="image" style="background-image: url('{{ item.thumbnail.url }}');"></div>
               <div class="text">
-                <h3><a href="#" class="text-success;">{{ item.name|title }}</a></h3>
+                <h3><a href="#" class="text-success;">{{ item.name|upper }}</a></h3>
                 {% if user.is_authenticated %}
                 <a href="{% url 'edit_category' item.slug %}"><i class="fa fa-pencil text-danger"></i></a>
                 <a href="{% url 'delete_category' item.slug %}"><i class="fa fa-trash text-danger"></i></a>
