@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import HomeView, CategoryView, ServicesView, AboutView, ContactView, \
-    AddCategoryView, AddPhotoView, AddAboutView, AddSkillsView, SingleView, EditCategoryView, \
-    DeleteCategoryView, EditPhotoView, DeletePhotoView, AllCategoriesView
+    AddCategoryView, AddPhotoView, AddAboutView, AddSkillsView, EditCategoryView, \
+    DeleteCategoryView, EditPhotoView, DeletePhotoView, AllCategoriesView, AddCommentsView
 
 urlpatterns = [
     path('', HomeView, name='home'),
@@ -12,7 +12,7 @@ urlpatterns = [
     path('edit_category/<str:slug>', EditCategoryView, name='edit_category'),
     path('delete_category/<str:slug>', DeleteCategoryView, name='delete_category'),
     path('services/', ServicesView, name='services'),
-    path('single/', SingleView, name='single'),
+    path('add_comments/', AddCommentsView, name='add_comments'),
     path('about/', AboutView, name='about'),
     path('contact/', ContactView, name='contact'),
     # -----------Photo URLs------------------------------------------------

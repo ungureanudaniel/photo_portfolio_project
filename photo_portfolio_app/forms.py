@@ -1,18 +1,18 @@
-from .models import Category, About, Photo, Skills
+from .models import Category, About, Photo, Skills, Comment
 from django import forms
 import datetime
 
-#-------------GRAB CATEGORIES FROM DATABASE -----------------
+#---------------------------------GRAB CATEGORIES FROM DATABASE --------------------------------------------------------
 choices = Category.objects.all().values_list('name', 'name')
 
 choices_list = []
 
 for item in choices:
     choices_list.append(item)
-#-------------GRAB CATEGORIES FROM DATABASE -----------------
 
 
-#-------------ADD CATEGORY FORM -------------------
+
+#--------------------------------------------ADD CATEGORY FORM ---------------------------------------------------------
 class AddCategoryForm(forms.ModelForm):
 
     class Meta:
@@ -25,7 +25,7 @@ class AddCategoryForm(forms.ModelForm):
         }
 
 
-#-------------ADD PHOTO FORM --------------------
+#--------------------------------------------ADD PHOTO FORM -----------------------------------------------------------
 class AddPhotoForm(forms.ModelForm):
 
     class Meta:
@@ -39,7 +39,7 @@ class AddPhotoForm(forms.ModelForm):
             'category': forms.Select(choices=choices_list, attrs = {'class': 'form-control'}),
         }
 
-
+#--------------------------------------------ADD SKILLS FORM -----------------------------------------------------------
 class AddSkillsForm(forms.ModelForm):
 
     class Meta:
@@ -52,7 +52,7 @@ class AddSkillsForm(forms.ModelForm):
             'percentage': forms.NumberInput(attrs = {'class': 'form-control'}),
         }
 
-
+#--------------------------------------------ADD ABOUT ME FORM ---------------------------------------------------------
 class AddAboutForm(forms.ModelForm):
 
     class Meta:
@@ -62,4 +62,17 @@ class AddAboutForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a salute...'}),
             'description': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a description about yourself...'}),
+        }
+
+#--------------------------------------------ADD COMMENT FORM ---------------------------------------------------------
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ['name', 'email', 'text', 'approved']
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Add your bane...'}),
+            'email': forms.EmailInput(),
+            'text': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '...'})
         }

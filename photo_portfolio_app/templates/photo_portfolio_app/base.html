@@ -64,7 +64,7 @@
               <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
                 <li class="active"><a href="{% url 'home' %}">Home</a></li>
                 <li class="has-children">
-                  <a href="{% url 'single' %}">Photography</a>
+                  <a href="{% url 'all_categories' %}">Photography</a>
 
                   <ul class="dropdown">
                     {% for item in cat_menu %}
@@ -141,12 +141,13 @@
                   <li><a href="#">Gallery</a></li>
                   <li><a href="{% url 'services' %}">Services</a></li>
                 </ul>
-              </div>
+              </div>1590
+
               <div class="col-md-6 col-lg-6">
                 <ul class="list-unstyled">
-                  <li><a href="#">About Me</a></li>
+                  <li><a href="{% url 'about' %}">About Me</a></li>
                   <li><a href="#">Privacy Policy</a></li>
-                  <li><a href="#">Contact Me</a></li>
+                  <li><a href="{% url 'contact' %}">Contact Me</a></li>
                   <li><a href="#">Terms</a></li>
                 </ul>
               </div>

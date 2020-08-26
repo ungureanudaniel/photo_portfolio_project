@@ -1,8 +1,8 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail, BadHeaderError
-from .models import Category, Photo, About, Skills
-from .forms import AddCategoryForm, AddPhotoForm, AddAboutForm, AddSkillsForm
+from .models import Category, Photo, About, Skills, Comment
+from .forms import AddCategoryForm, AddPhotoForm, AddAboutForm, AddSkillsForm, CommentForm
 from django.template.defaultfilters import slugify
 from django.db.models import Count
 
@@ -31,7 +31,16 @@ def HomeView(request):
     cat_menu = Category.objects.all()
     print(cat_menu)
 
+    if request.method == "POST":
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # Save the comment to the database
+            comment_form.save()
+    else:
+        comment_form = CommentForm()
+
     context = {
+        'comment_form': comment_form,
         'about': about,
         'cat_menu': cat_menu,
         'firsttwo_specialty': firsttwo_specialty,
@@ -56,8 +65,6 @@ def AddPhotoView(request):
     if request.method == "POST":
         form = AddPhotoForm(request.POST)
         if form.is_valid():
-            obj = form.save(commit=False)
-            obj.save()
         # COMMAND TO SAVE THE FORM USING THE TAGS MANAGER
             form.save_m2m()
             return redirect('/')
@@ -151,7 +158,7 @@ def AllCategoriesView(request):
     all_photos = Photo.objects.all()
     category_count = get_category_count()
     # print(category_count)
-    print(category)
+    print(category_count)
     about = About.objects.all()[:1]
     cat_menu = Category.objects.all()
     context = {
@@ -273,15 +280,19 @@ def AboutView(request):
     }
     return render(request, template, context)
 
-def SingleView(request):
-    template = 'photo_portfolio_app/single.html'
+def AddCommentsView(request):
+    template = 'photo_portfolio_app/add_comment.html'
     about = About.objects.all()[:1]
-    single_photo = Photo.objects.all().order_by('-date_taken')
-    cat_menu = Category.objects.all()
+    comment_form = CommentForm(request.POST or None)
+    # if comment_form.is_valid():
+    #     comment_form.save()
+    #     return redirect('home')
+    # else:
+    #     comment_form = CommentForm()
+
     context = {
+        'comment_form': comment_form,
         'about': about,
-        'cat_menu': cat_menu,
-        'single_photo': single_photo,
     }
     return render(request, template, context)
 

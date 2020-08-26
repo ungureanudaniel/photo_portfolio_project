@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 #     def __str__(self):
 #         return self.name
 
+#----------------------PHOTOS CATEGORIES MODEL -----------------------------------------------------------------------
 class Category(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, max_length=200, default="")
@@ -30,6 +31,7 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         return reverse('home')
+
 
 class About(models.Model):
     title = models.CharField(max_length=200)
@@ -55,7 +57,7 @@ class Photo(models.Model):
     description = models.TextField('A short description...', max_length=500, default="")
     # author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     date_taken = models.DateField(auto_now_add=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, default="")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='photo', default="")
     tags = TaggableManager()
     slug = models.SlugField(unique=True, max_length=100, default="")
     featured = models.BooleanField('Check this if you want picture to be shown as featured on the home page', default=False)
@@ -68,7 +70,28 @@ class Photo(models.Model):
 
     def get_absolute_url(self):
         return reverse('home')
-#
+
+
+# ----------------------PHOTOS COMMENTS MODEL -----------------------------------------------------------------------
+class Comment(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    text = models.TextField()
+    date_created = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+
+
+
+    class Meta:
+        ordering = ['date_created']
+
+    def __str__(self):
+        return self.text
+
+    def approve(self):
+        self.approved = True
+        self.save()
+
 #     # author = models.ForeignKey(User, on_delete=models.CASCADE)
 #     # title = models.CharField(max_length=255)
 #     # image = models.FileField(upload_to='blog_image', blank=True)
