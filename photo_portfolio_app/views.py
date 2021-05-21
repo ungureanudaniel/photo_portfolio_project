@@ -2,11 +2,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib import messages
-from .models import About, Skill, Category
-# Photo, Comment, Category,
-from .forms import AddSpecialtyForm, CommentForm
-# AddPhotoForm
-# AddAboutForm, , AddCategoryForm, ,
+from .models import About, Skill, Category, Photo, Comment, Category
+from .forms import CommentForm, AddSpecialtyForm, AddPhotoForm
+# AddAboutForm, , , ,
 from django.template.defaultfilters import slugify
 from django.db.models import Count
 
@@ -23,15 +21,13 @@ def HomeView(request):
     # category_count = get_category_count()
     # print(category_count)
     about = About.objects.all()[:1]
-    # other_specialty = Category.objects.filter(specialties=False)
-    # specialty = Skills.objects.filter(specialties=True)
-    # first_three_photos = Photo.objects.filter(featured=True)[:3]
-    # next_three_photos = Photo.objects.filter(featured=True)[3:6]
-    # last_three_photos = Photo.objects.filter(featured=True)[6:9]
-    # featured_pics = Photo.objects.filter(featured=True)
-    # firsttwo_specialties = Category.objects.filter(specialties=True)[:2]
+    other_specialty = Category.objects.filter(specialties=False)
+    skills = Skill.objects.all()
+
+    featured_pics = Photo.objects.filter(featured=True)
+
     categories_specialty = Category.objects.filter(specialties=True)
-    # lasttwo_specialties = Category.objects.filter(specialties=True)[2:4]
+
 
     cat_menu = Category.objects.all()
     # print(cat_menu)
@@ -50,17 +46,12 @@ def HomeView(request):
     context = {
         'comment_form': comment_form,
         'about': about,
+        'skills': skills,
         "categories_specialty": categories_specialty,
         'cat_menu': cat_menu,
-        # "featured_pics": featured_pics,
-        # 'firsttwo_specialties': firsttwo_specialty,
-        # 'lasttwo_specialties': lasttwo_specialty,
-        # 'first_three_photos': first_three_photos,
-        # 'next_three_photos': next_three_photos,
-        # 'last_three_photos': last_three_photos,
+        "featured_pics": featured_pics,
         # 'category_count': category_count,
-        # 'other_specialty': other_specialty,
-        # 'specialty': specialty,
+        'other_specialty': other_specialty,
     }
     return render(request, template, context)
 
@@ -69,8 +60,8 @@ def HomeView(request):
 def AddPhotoView(request):
     template = 'photo_portfolio_app/add_photo.html'
     about = About.objects.all()[:1]
-    # common_tags = Photo.tags.most_common()[:4]
-    # cat_menu = Category.objects.all()
+    common_tags = Photo.tags.most_common()[:4]
+    cat_menu = Category.objects.all()
 
     form = AddPhotoForm(request.POST or None)
     if form.is_valid():
@@ -80,8 +71,8 @@ def AddPhotoView(request):
 
     context = {
         'about': about,
-        # 'cat_menu': cat_menu,
-        # 'common_tags': common_tags,
+        'cat_menu': cat_menu,
+        'common_tags': common_tags,
         'form': form,
     }
     return render(request, template, context)
@@ -90,7 +81,7 @@ def AddPhotoView(request):
 #-----------------------------EDIT PHOTO --------------------------------------
 def EditPhotoView(request, pk):
     template = 'photo_portfolio_app/edit_photo.html'
-    # specific_photo_grab = Photo.objects.get(id=pk)
+    specific_photo_grab = Photo.objects.get(id=pk)
     form = AddPhotoForm(instance=specific_photo_grab)
     if request.method == "POST":
         form = AddCategoryForm(request.POST or None, request.FILES or None, instance=specific_photo_grab)
@@ -101,7 +92,7 @@ def EditPhotoView(request, pk):
     context = {
         'about': about,
         'form': form,
-        # 'specific_photo_grab': specific_photo_grab,
+        'specific_photo_grab': specific_photo_grab,
     }
     return render(request, template, context)
 
@@ -129,10 +120,10 @@ def ServicesView(request):
     other_specialty = Category.objects.filter(specialties=False)
     specialty = Category.objects.filter(specialties=True)
     about = About.objects.all()[:1]
-    # cat_menu = Category.objects.all()
+    cat_menu = Category.objects.all()
     context = {
         'about': about,
-        # 'cat_menu': cat_menu,
+        'cat_menu': cat_menu,
         'specialty': specialty,
         'other_specialty': other_specialty,
     }
@@ -142,7 +133,7 @@ def ServicesView(request):
 #-----------------PHOTOS SINGLE CATEGORY PAGE--------------------------
 def CategoryView(request, slug):
     template = 'photo_portfolio_app/category.html'
-    specialties = Category.objects.filter(specialties=True)
+    # specialties = Category.objects.filter(specialties=True)
     category = get_object_or_404(Category, slug=slug)
     # photos_by_category = Photo.objects.filter(category=category)
     # category_count = get_category_count()
@@ -153,9 +144,9 @@ def CategoryView(request, slug):
     context = {
         'about': about,
         'slug': slug,
-        'category': category,
-        'cat_menu': cat_menu,
-        'specialties': specialties,
+        # 'category': category,
+        # 'cat_menu': cat_menu,
+        # 'specialties': specialties,
         # 'photos_by_category': photos_by_category,
     }
     return render(request, template, context)
@@ -207,7 +198,7 @@ def AddSpecialtyForm(request):
 def EditSpecialtyView(request, slug):
     template = 'photo_portfolio_app/edit_category.html'
     about = About.objects.all()[:1]
-    category = Category.objects.get(slug=slug)
+    # category = Category.objects.get(slug=slug)
     form = AddCategoryForm(instance=category)
     if request.method == "POST":
         form = AddCategoryForm(request.POST or None, request.FILES or None, instance=category)
@@ -218,7 +209,7 @@ def EditSpecialtyView(request, slug):
     context = {
         'about': about,
         'form': form,
-        'category': category,
+        # 'category': category,
     }
     return render(request, template, context)
 
@@ -278,8 +269,8 @@ def AddAboutView(request):
 def AddSkillView(request):
     template = 'photo_portfolio_app/add_skills.html'
     about = About.objects.all()[:1]
-    # form = AddSkillForm(request.POST, request.FILES or None)
-    # cat_menu = Category.objects.all()
+    form = AddSkillForm(request.POST, request.FILES or None)
+    cat_menu = Category.objects.all()
     if request.method == 'POST':
         skill_name = request.POST.get('skill')
         perc_value = request.POST.get('perc')
@@ -328,7 +319,7 @@ def AddSkillView(request):
 def ContactView(request):
     template = 'photo_portfolio_app/contact.html'
     about = About.objects.all()[:1]
-    # cat_menu = Category.objects.all()
+    cat_menu = Category.objects.all()
     if request.method == "POST":
         message_fname = request.POST['message-fname']
         message_lname = request.POST['message-lname']

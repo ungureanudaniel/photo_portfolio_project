@@ -1,5 +1,4 @@
-from .models import About, Skill, Category, Comment
- # Photo
+from .models import About, Skill, Comment, Photo, Category
 from django import forms
 import datetime
 
@@ -13,47 +12,47 @@ for item in choices:
 
 
 
-# #--------------------------------------------ADD CATEGORY FORM ---------------------------------------------------------
+# ------------------------ADD CATEGORY FORM -----------------------------------
 class AddSpecialtyForm(forms.ModelForm):
 
     class Meta:
         model = Category
         fields = ['name', 'text', 'thumbnail', 'specialties']
         slug = forms.CharField(widget=forms.HiddenInput(), initial="value")
-        # widgets = {
-        #     'name': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a name...'}),
-        #     'text': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a description...'}),
-        # }
+        widgets = {
+            'name': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a name...'}),
+            'text': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a description...'}),
+        }
 
 
 # #--------------------------------------------ADD PHOTO FORM -----------------------------------------------------------
-# class AddPhotoForm(forms.ModelForm):
-#
-#     class Meta:
-#         model = Photo
-#         fields = ['image', 'image_title', 'description', 'category', 'tags', 'featured', 'slug']
-#
-#         widgets = {
-#             'image_title': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a name...'}),
-#             'description': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a description...'}),
-#             # 'date_taken': forms.DateTime(),
-#             'category': forms.Select(choices=choices_list, attrs = {'class': 'form-control'}),
-#         }
+class AddPhotoForm(forms.ModelForm):
 
-# #--------------------------------------------ADD SKILLS FORM -----------------------------------------------------------
-# class AddSkillForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['image', 'image_title', 'description', 'category', 'tags', 'featured', 'slug']
+
+        widgets = {
+            'image_title': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a name...'}),
+            'description': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a description...'}),
+            # 'date_taken': forms.DateTime(),
+            'category': forms.Select(choices=choices_list, attrs = {'class': 'form-control'}),
+        }
+
+#-----------------------------ADD SKILLS FORM ---------------------------------
+class AddSkillForm(forms.ModelForm):
+
+    class Meta:
+        model = Skill
+        fields = ['skill', 'percentage']
+
+        widgets = {
+            'skill': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a skill...'}),
+            # 'date_taken': forms.DateTime(),
+            'percentage': forms.NumberInput(attrs = {'class': 'form-control'}),
+        }
 #
-#     class Meta:
-#         model = Skill
-#         fields = ['skill', 'percentage']
-#
-#         widgets = {
-#             'skill': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a skill...'}),
-#             # 'date_taken': forms.DateTime(),
-#             'percentage': forms.NumberInput(attrs = {'class': 'form-control'}),
-#         }
-# #
-# #--------------------------------------------ADD ABOUT ME FORM ---------------------------------------------------------
+#-----------------------------ADD ABOUT ME FORM ------------------------------
 # class AddAboutForm(forms.ModelForm):
 #
 #     class Meta:
