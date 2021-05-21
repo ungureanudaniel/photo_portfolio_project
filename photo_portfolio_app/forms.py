@@ -1,4 +1,5 @@
-from .models import About, Skill, Category, Comment, Photo
+from .models import About, Skill, Category, Comment
+ # Photo
 from django import forms
 import datetime
 
@@ -26,18 +27,18 @@ class AddSpecialtyForm(forms.ModelForm):
 
 
 # #--------------------------------------------ADD PHOTO FORM -----------------------------------------------------------
-class AddPhotoForm(forms.ModelForm):
-
-    class Meta:
-        model = Photo
-        fields = ['image', 'image_title', 'description', 'category', 'tags', 'featured', 'slug']
-
-        widgets = {
-            'image_title': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a name...'}),
-            'description': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a description...'}),
-            # 'date_taken': forms.DateTime(),
-            'category': forms.Select(choices=choices_list, attrs = {'class': 'form-control'}),
-        }
+# class AddPhotoForm(forms.ModelForm):
+#
+#     class Meta:
+#         model = Photo
+#         fields = ['image', 'image_title', 'description', 'category', 'tags', 'featured', 'slug']
+#
+#         widgets = {
+#             'image_title': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a name...'}),
+#             'description': forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Add a description...'}),
+#             # 'date_taken': forms.DateTime(),
+#             'category': forms.Select(choices=choices_list, attrs = {'class': 'form-control'}),
+#         }
 
 # #--------------------------------------------ADD SKILLS FORM -----------------------------------------------------------
 # class AddSkillForm(forms.ModelForm):

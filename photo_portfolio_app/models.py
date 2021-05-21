@@ -62,31 +62,31 @@ class Category(models.Model):
 
 #----------------------PHOTOS UPLOAD MODEL -----------------------------------
 
-class Photo(models.Model):
-    image = models.ImageField(upload_to = "images/", default="")
-    image_title = models.CharField('A short title, max two words', max_length=200)
-    description = models.TextField('A short description...', max_length=500, default="")
-#     # author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
-    date_taken = models.DateField(auto_now_add=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='photo', default="")
-    tags = TaggableManager()
-    slug = models.SlugField(unique=True, max_length=100, default="")
-    featured = models.BooleanField('Check this if you want picture to be shown as featured on the home page', default=False)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.image_title)
-        super(Photo, self).save(*args, **kwargs)
-
-
-
-    class Meta:
-        ordering = ["-date_taken"]
-
-    def get_absolute_url(self):
-        return reverse('home')
-
-    def __str__(self):
-        return self.image_title
+# class Photo(models.Model):
+#     image = models.ImageField(upload_to = "images/", default="")
+#     image_title = models.CharField('A short title, max two words', max_length=200)
+#     description = models.TextField('A short description...', max_length=500, default="")
+# #     # author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+#     date_taken = models.DateField(auto_now_add=True)
+#     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='photo', default="")
+#     tags = TaggableManager()
+#     slug = models.SlugField(unique=True, max_length=100, default="")
+#     featured = models.BooleanField('Check this if you want picture to be shown as featured on the home page', default=False)
+#
+#     def save(self, *args, **kwargs):
+#         self.slug = slugify(self.image_title)
+#         super(Photo, self).save(*args, **kwargs)
+#
+#
+#
+#     class Meta:
+#         ordering = ["-date_taken"]
+#
+#     def get_absolute_url(self):
+#         return reverse('home')
+#
+#     def __str__(self):
+#         return self.image_title
 
 # --------------------PHOTOS COMMENTS MODEL -----------------------------------
 class Comment(models.Model):

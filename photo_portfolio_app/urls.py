@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import AboutView, HomeView, ContactView, ServicesView, AddSkillView, CategoryView, AddPhotoView, EditPhotoView, DeletePhotoView, EditSpecialtyView, DeleteSpecialtyView
+from .views import AboutView, HomeView, ContactView, ServicesView, AddSkillView, CategoryView, EditSpecialtyView, DeleteSpecialtyView
+# AddPhotoView, EditPhotoView, DeletePhotoView,
 from .forms import AddSpecialtyForm
  # , AddAboutView,
 
@@ -17,9 +18,9 @@ urlpatterns = [
     path('about/', AboutView, name='about'),
     path('contact/', ContactView, name='contact'),
     # -----------Photo URLs------------------------------------------------
-    path('add_photo/', AddPhotoView, name='add_photo'),
-    path('edit_photo/<int:pk>', EditPhotoView, name='edit_photo'),
-    path('delete_photo/<int:pk>', DeletePhotoView, name='delete_photo'),
+    # path('add_photo/', AddPhotoView, name='add_photo'),
+    # path('edit_photo/<int:pk>', EditPhotoView, name='edit_photo'),
+    # path('delete_photo/<int:pk>', DeletePhotoView, name='delete_photo'),
     # -----------Photo URLs------------------------------------------------
 
     # path('add_about/', AddAboutView, name='add_about'),

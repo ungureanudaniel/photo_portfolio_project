@@ -2,9 +2,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib import messages
-from .models import About, Skill, Category, Photo
-#  Comment, Category,
-from .forms import AddSpecialtyForm, CommentForm, AddPhotoForm
+from .models import About, Skill, Category
+# Photo, Comment, Category,
+from .forms import AddSpecialtyForm, CommentForm
+# AddPhotoForm
 # AddAboutForm, , AddCategoryForm, ,
 from django.template.defaultfilters import slugify
 from django.db.models import Count
@@ -27,7 +28,7 @@ def HomeView(request):
     # first_three_photos = Photo.objects.filter(featured=True)[:3]
     # next_three_photos = Photo.objects.filter(featured=True)[3:6]
     # last_three_photos = Photo.objects.filter(featured=True)[6:9]
-    featured_pics = Photo.objects.filter(featured=True)
+    # featured_pics = Photo.objects.filter(featured=True)
     # firsttwo_specialties = Category.objects.filter(specialties=True)[:2]
     categories_specialty = Category.objects.filter(specialties=True)
     # lasttwo_specialties = Category.objects.filter(specialties=True)[2:4]
@@ -51,7 +52,7 @@ def HomeView(request):
         'about': about,
         "categories_specialty": categories_specialty,
         'cat_menu': cat_menu,
-        "featured_pics": featured_pics,
+        # "featured_pics": featured_pics,
         # 'firsttwo_specialties': firsttwo_specialty,
         # 'lasttwo_specialties': lasttwo_specialty,
         # 'first_three_photos': first_three_photos,
@@ -68,7 +69,7 @@ def HomeView(request):
 def AddPhotoView(request):
     template = 'photo_portfolio_app/add_photo.html'
     about = About.objects.all()[:1]
-    common_tags = Photo.tags.most_common()[:4]
+    # common_tags = Photo.tags.most_common()[:4]
     # cat_menu = Category.objects.all()
 
     form = AddPhotoForm(request.POST or None)
@@ -80,7 +81,7 @@ def AddPhotoView(request):
     context = {
         'about': about,
         # 'cat_menu': cat_menu,
-        'common_tags': common_tags,
+        # 'common_tags': common_tags,
         'form': form,
     }
     return render(request, template, context)
@@ -89,7 +90,7 @@ def AddPhotoView(request):
 #-----------------------------EDIT PHOTO --------------------------------------
 def EditPhotoView(request, pk):
     template = 'photo_portfolio_app/edit_photo.html'
-    specific_photo_grab = Photo.objects.get(id=pk)
+    # specific_photo_grab = Photo.objects.get(id=pk)
     form = AddPhotoForm(instance=specific_photo_grab)
     if request.method == "POST":
         form = AddCategoryForm(request.POST or None, request.FILES or None, instance=specific_photo_grab)
@@ -100,7 +101,7 @@ def EditPhotoView(request, pk):
     context = {
         'about': about,
         'form': form,
-        'specific_photo_grab': specific_photo_grab,
+        # 'specific_photo_grab': specific_photo_grab,
     }
     return render(request, template, context)
 
@@ -143,7 +144,7 @@ def CategoryView(request, slug):
     template = 'photo_portfolio_app/category.html'
     specialties = Category.objects.filter(specialties=True)
     category = get_object_or_404(Category, slug=slug)
-    photos_by_category = Photo.objects.filter(category=category)
+    # photos_by_category = Photo.objects.filter(category=category)
     # category_count = get_category_count()
     # print(category_count)
     # print(category)
@@ -155,7 +156,7 @@ def CategoryView(request, slug):
         'category': category,
         'cat_menu': cat_menu,
         'specialties': specialties,
-        'photos_by_category': photos_by_category,
+        # 'photos_by_category': photos_by_category,
     }
     return render(request, template, context)
 
