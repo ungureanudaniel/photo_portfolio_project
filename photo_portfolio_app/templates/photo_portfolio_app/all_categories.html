@@ -14,12 +14,15 @@
               {% for cat in category_count %}
             <p class="caption">{{ cat.category_count }} Pictures / {{ cat.category.name }}</p>
               {% endfor %}
+              {% if user.is_authenticated %}
+              <span class="text-white bg-success btn"><i class="fas fa-plus"></i><a class="text-white" href="{% url 'add_skill' %}"> Add New Photo</a></span>
+              {% endif %}
           </div>
         </div>
       </div>
     </div>
 
-  
+
 
 <div class="site-section"  data-aos="fade">
     <div class="container">
