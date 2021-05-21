@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["photoportfolioapp.herokuapp.com"]
+ALLOWED_HOSTS = ["frozen-mountain-59300.herokuapp.com"]
 
 
 # Application definition
