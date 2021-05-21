@@ -17,11 +17,11 @@ urlpatterns = [
     # path('add_comments/', AddCommentsView, name='add_comments'),
     path('about/', AboutView, name='about'),
     path('contact/', ContactView, name='contact'),
-    -----------Photo URLs------------------------------------------------
+    # -----------Photo URLs------------------------------------------------
     path('add_photo/', AddPhotoView, name='add_photo'),
     path('edit_photo/<int:pk>', EditPhotoView, name='edit_photo'),
     path('delete_photo/<int:pk>', DeletePhotoView, name='delete_photo'),
-    -----------Photo URLs------------------------------------------------
+    # -----------Photo URLs------------------------------------------------
 
     path('add_about/', AddAboutView, name='add_about'),
     path('add_skill/', AddSkillView, name='add_skill'),
