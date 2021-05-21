@@ -36,29 +36,29 @@ class Skill(models.Model):
         return self.skill
 
 #----------------------PHOTOS CATEGORY MODEL -----------------------------------
-# class Category(models.Model):
-#     name = models.CharField(max_length=200)
-#     slug = models.SlugField(unique=True, max_length=200, default="")
-#     text = models.TextField()
-#     thumbnail = models.ImageField(upload_to = "static/photo_portfolio_app/categ_images/", default= "")
-#     specialties = models.BooleanField(blank=True, default=False)
-#
-#     def save(self, *args, **kwargs):
-#         self.slug = slugify(self.name)
-#         super(Category, self).save(*args, **kwargs)
-#
-#     def __str__(self):
-#         return self.slug
-#
-#
-#
-#     def get_absolute_url(self):
-#         return reverse('home')
-#
-#     @property
-#     def image_url(self):
-#         if self.thumbnail and hasattr(self.thumbnail, 'url'):
-#             return self.thumbnail.url
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, max_length=200, default="")
+    text = models.TextField()
+    thumbnail = models.ImageField(upload_to = "static/photo_portfolio_app/categ_images/", default= "")
+    specialties = models.BooleanField(blank=True, default=False)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.slug
+
+
+
+    def get_absolute_url(self):
+        return reverse('home')
+
+    @property
+    def image_url(self):
+        if self.thumbnail and hasattr(self.thumbnail, 'url'):
+            return self.thumbnail.url
 
 #----------------------PHOTOS UPLOAD MODEL -----------------------------------
 
