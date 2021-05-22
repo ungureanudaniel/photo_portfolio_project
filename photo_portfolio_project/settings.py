@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ["127.0.0.1", "photoportfoliowebsite.herokuapp.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "www.camerainthewild.xyz"]
 
 
 # Application definition
@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'photo_portfolio_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('DATABASE_NAME'),
         'USER': os.getenv('DATABASE_USER'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD'),
