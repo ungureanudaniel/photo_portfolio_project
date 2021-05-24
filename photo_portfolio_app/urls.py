@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AboutView, HomeView, ContactView, ServicesView, AddSkillView, CategoryView, EditSpecialtyView, DeleteSpecialtyView
+from .views import HomeView, AboutView, ContactView, ServicesView, AddSkillView, CategoryView, EditSpecialtyView, DeleteSpecialtyView
 
 # AddPhotoView, EditPhotoView, DeletePhotoView,
 from .forms import AddSpecialtyForm
