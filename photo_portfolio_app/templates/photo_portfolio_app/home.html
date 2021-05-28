@@ -83,7 +83,7 @@
 <!-----------------------------CATEGORIES START ---------------------------- -->
     <div class="site-section" data-aos="fade">
       <div class="container">
-        <div class="row mb-5">
+        <div class="row mb-5 mt-5">
             <div class="col-12 ">
               <h2 class="site-section-heading text-center">My Specialties</h2>
             </div>
@@ -193,9 +193,8 @@
      <div class="container" >
        <div class="row">
          <div class="col-md-12 d-md-flex align-items-center" data-aos="fade">
-           <h2 class="text-white mb-5 mb-md-0 text-center text-md-left">Need a photographer?</h2>
+           <h2 class="text-white mb-5 mb-md-0 text-center text-md-left">Need a photographer? Let's talk!</h2>
            <div class="ml-auto text-center text-md-left">
-            <a href="{% url 'contact' %}" class="btn btn-danger py-3 px-5 rounded">Contact Me</a>
             <br>
            </div>
          </div>
@@ -220,10 +219,16 @@
                   {% csrf_token %}
 
                   {{ comment_form|crispy }}
+
+
+                  <p class="text-white">* Required</p>
+
+                  <button type="submit" value="Save" class="btn btn-primary py-2 px-4 mb-3 text-white">Send</button>
                 </form>
-                <p class="text-white">* Required</p>
+
                 <br>
             </div>
+
         </div>
 
     </div>

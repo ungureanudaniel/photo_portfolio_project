@@ -3,17 +3,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib import messages
 from .models import About, Skill, Category, Photo, Comment, Category
-from .forms import CommentForm, AddSpecialtyForm, AddPhotoForm
+from .forms import CommentForm, AddSpecialtyForm, AddPhotoForm, AddSkillForm
 # AddAboutForm, , , ,
 from django.template.defaultfilters import slugify
 from django.db.models import Count
 
 
 #-----------------CATEGORY COUNT--------------------------
-# def get_category_count():
-#     queryset = Photo.objects.values_list('category').annotate(Count('category'))
-#     count = queryset.values('category', 'category__count')
-#     return count
+def get_category_count():
+    queryset = Photo.objects.values_list('category').annotate(Count('category'))
+    count = queryset.values('category', 'category__count')
+    return count
 
 #-----------------HOME PAGE-----------------------------
 def HomeView(request):
@@ -31,7 +31,7 @@ def HomeView(request):
 
     cat_menu = Category.objects.all()
     # print(cat_menu)
-
+    comments = Comment.objects.filter(approved=True)
     if request.method == "POST":
         try:
             comment_form = CommentForm(data=request.POST)
@@ -44,6 +44,7 @@ def HomeView(request):
         comment_form = CommentForm()
 
     context = {
+        'comments': comments,
         'comment_form': comment_form,
         'about': about,
         'skills': skills,
@@ -120,8 +121,10 @@ def ServicesView(request):
     other_specialty = Category.objects.filter(specialties=False)
     specialty = Category.objects.filter(specialties=True)
     about = About.objects.all()[:1]
+    categories_specialty = Category.objects.filter(specialties=True)
     cat_menu = Category.objects.all()
     context = {
+        'categories_specialty': categories_specialty,
         'about': about,
         'cat_menu': cat_menu,
         'specialty': specialty,
@@ -133,10 +136,10 @@ def ServicesView(request):
 #-----------------PHOTOS SINGLE CATEGORY PAGE--------------------------
 def CategoryView(request, slug):
     template = 'photo_portfolio_app/category.html'
-    # specialties = Category.objects.filter(specialties=True)
+    specialties = Category.objects.filter(specialties=True)
     category = get_object_or_404(Category, slug=slug)
-    # photos_by_category = Photo.objects.filter(category=category)
-    # category_count = get_category_count()
+    photos_by_category = Photo.objects.filter(category=category)
+    category_count = get_category_count()
     # print(category_count)
     # print(category)
     about = About.objects.all()[:1]
@@ -144,10 +147,10 @@ def CategoryView(request, slug):
     context = {
         'about': about,
         'slug': slug,
-        # 'category': category,
-        # 'cat_menu': cat_menu,
-        # 'specialties': specialties,
-        # 'photos_by_category': photos_by_category,
+        'category': category,
+        'cat_menu': cat_menu,
+        'specialties': specialties,
+        'photos_by_category': photos_by_category,
     }
     return render(request, template, context)
 
@@ -238,8 +241,10 @@ def AboutView(request):
     about = About.objects.all().order_by('-id')
     skills = Skill.objects.all().order_by('-percentage')
     # cat_menu = Category.objects.all()
+    categories_specialty = Category.objects.filter(specialties=True)
     context = {
         # 'cat_menu': cat_menu,
+        'categories_specialty': categories_specialty,
         'skills': skills,
         'about': about,
     }
@@ -320,6 +325,7 @@ def ContactView(request):
     template = 'photo_portfolio_app/contact.html'
     about = About.objects.all()[:1]
     cat_menu = Category.objects.all()
+    categories_specialty = Category.objects.filter(specialties=True)
     if request.method == "POST":
         message_fname = request.POST['message-fname']
         message_lname = request.POST['message-lname']
@@ -338,6 +344,7 @@ def ContactView(request):
 
         context = {
             'about': about,
+            'categories_specialty': categories_specialty,
             # 'cat_menu': cat_menu,
             'message_fname': message_fname,
             'message_lname': message_lname,
@@ -349,6 +356,10 @@ def ContactView(request):
 
 
     else:
-        #return the page
+        context = {
+            'about': about,
+            'categories_specialty': categories_specialty,
+            # 'cat_menu': cat_menu,
+        }
 
-        return render(request, template, {})
+        return render(request, template, context)
