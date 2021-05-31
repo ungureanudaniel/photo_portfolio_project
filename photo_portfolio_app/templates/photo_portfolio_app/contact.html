@@ -3,7 +3,7 @@
 
 {% block content %}
 
-    <header class="site-navbar py-3 bg-black text-white" role="banner">
+    <header class="site-navbar py-3 bg-black text-white" role="banner" >
 
 
 
@@ -20,7 +20,7 @@
               <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
                 <li ><a href="{% url 'home' %}">Home</a></li>
                 <li class="has-children">
-                  <a href="{% url 'home' %}">Photography</a>
+                  <a>Photography</a>
                   <ul class="dropdown">
 
                     <li><a href="#">Nature</a></li>
@@ -38,10 +38,10 @@
             <div class="d-none d-xl-inline-block">
               <ul class="site-menu js-clone-nav ml-auto list-unstyled d-flex text-right mb-0" data-class="social">
                 <li>
-                  <a href="#" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
+                  <a href="https://www.facebook.com/ungureanu.daniel.96" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
                 </li>
                 <li>
-                  <a href="#" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
+                  <a href="https://twitter.com/udanielioan" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
                 </li>
                 <li>
                   <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
@@ -52,7 +52,7 @@
               </ul>
             </div>
 
-            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
+            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3 text-white"></span></a></div>
 
           </div>
 
@@ -61,7 +61,7 @@
 
     </header>
 <!--------------------------------------------------CONTACT ME START ---------------------------------------------- -->
-    <div class="site-blocks-cover overlay inner-page-cover" style="background-image: url('/static/photo_portfolio_app/images/New_Phone_is_Old_Phone_-_crop.jpg');" data-stellar-background-ratio="0.5">
+    <div class="site-blocks-cover overlay inner-page-cover" style="background-image: url('/static/photo_portfolio_app/images/Old_Phone.jpg');" data-stellar-background-ratio="0.5">
       <div class="container">
         <div class="row align-items-center justify-content-center">
           <div class="col-md-7 text-center" data-aos="fade-up">
@@ -79,24 +79,25 @@
     <div class="site-section" data-aos="fade">
     <div class="container-fluid">
 
-      <div class="row justify-content-center">
-        <div class="col-md-7">
+      <div class="row justify-content-center" style="background-image: linear-gradient(to bottom, black, white);">
+        <div class="col-md-7" >
 
 
-          <div class="row">
+          <div class="row" >
             <div class="col-lg-8 mb-5">
+              <h2 class="text-white p-3">Write me a message using the form below.</h2>
               {% include 'photo_portfolio_app/contact_form.html' %}
             </div>
-            <div class="col-lg-3 ml-auto">
-              <div class="mb-3 bg-white">
-                <p class="mb-0 font-weight-bold">Address</p>
-                <p class="mb-4">Saturn 15, Brasov, Romania</p>
+            <div class="col-lg-3 ml-auto p-2">
+              <div class="mb-3 ">
+                <p class="mb-0 lead text-white font-weight-bold">Address</p>
+                <p class="mb-4 lead" style="color:#7971ea;">Saturn 15, Brasov, Romania</p>
 
-                <p class="mb-0 font-weight-bold">Phone</p>
-                <p class="mb-4"><a href="tel:0040757484560">+40 0757 484 560</a></p>
+                <p class="mb-0 lead font-weight-bold text-white">Phone</p>
+                <p class="mb-4 lead"><a href="tel:0040757484560">+40 0757 484 560</a></p>
 
-                <p class="mb-0 font-weight-bold">Email Address</p>
-                <p class="mb-0"><a href="mailto:danielungureanu531@gmail.com?">danielungureanu531@gmail.com</a></p>
+                <p class="mb-0 lead font-weight-bold text-white">Email Address</p>
+                <p class="mb-0 lead"><a href="mailto:danielungureanu531@gmail.com?">danielungureanu531@gmail.com</a></p>
 
               </div>
 

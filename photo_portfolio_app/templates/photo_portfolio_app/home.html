@@ -19,7 +19,7 @@
               <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
                 <li class="active"><a href="{% url 'home' %}">Home</a></li>
                 <li class="has-children">
-                  <a href="{% url 'home' %}">Photography</a>
+                  <a>Photography</a>
                   <ul class="dropdown">
                     {% for item in categories_specialty %}
                     <li><a href="{% url 'category' item.slug %}">{{ item.name|title }}</a></li>
@@ -38,10 +38,10 @@
             <div class="d-none d-xl-inline-block">
               <ul class="site-menu js-clone-nav ml-auto list-unstyled d-flex text-right mb-0" data-class="social">
                 <li>
-                  <a href="#" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
+                  <a href="https://www.facebook.com/ungureanu.daniel.96" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
                 </li>
                 <li>
-                  <a href="#" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
+                  <a href="https://twitter.com/udanielioan" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
                 </li>
                 <li>
                   <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
@@ -52,7 +52,7 @@
               </ul>
             </div>
 
-            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
+            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3 text-white"></span></a></div>
 
           </div>
 
@@ -213,7 +213,7 @@
         <div class="row">
             <div class="col-12">
                 <h2 class="mt-5">
-                    Do you like my website? Write a few words on what you think about it, <span style="color:#228B22">here!</span>
+                    Do you like my website? Write a few words on what you think about it, here!
                 </h2>
                 <form method="POST" action="/">
                   {% csrf_token %}
