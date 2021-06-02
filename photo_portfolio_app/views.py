@@ -123,7 +123,20 @@ def ServicesView(request):
     about = About.objects.all()[:1]
     categories_specialty = Category.objects.filter(specialties=True)
     cat_menu = Category.objects.all()
+
+    if request.method == "POST":
+        try:
+            comment_form = CommentForm(data=request.POST)
+            if comment_form.is_valid():
+                # Save the comment to the database
+                comment_form.save()
+        except Error as e:
+            print(e)
+    else:
+        comment_form = CommentForm()
+
     context = {
+        'comment_form': comment_form,
         'categories_specialty': categories_specialty,
         'about': about,
         'cat_menu': cat_menu,
@@ -144,7 +157,20 @@ def CategoryView(request, slug):
     # print(category)
     about = About.objects.all()[:1]
     cat_menu = Category.objects.all()
+
+    if request.method == "POST":
+        try:
+            comment_form = CommentForm(data=request.POST)
+            if comment_form.is_valid():
+                # Save the comment to the database
+                comment_form.save()
+        except Error as e:
+            print(e)
+    else:
+        comment_form = CommentForm()
+
     context = {
+        'comment_form': comment_form,
         'about': about,
         'slug': slug,
         'category': category,

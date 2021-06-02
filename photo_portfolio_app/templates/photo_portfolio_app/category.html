@@ -18,8 +18,8 @@
             <nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 
               <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
-                <li class="active"><a href="{% url 'home' %}">Home</a></li>
-                <li class="has-children">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li  class="active has-children">
                   <a>Photography</a>
                   <ul class="dropdown">
                     {% for item in specialties %}
@@ -100,11 +100,12 @@
 
 
 
-<div class="py-3 mb-5 pt-5">
+<div class="py-3 mb-5 pt-5" style="background-image: url('/static/photo_portfolio_app/images/black-phone.jpg'); background-repeat: no-repeat; background-position: center; background-size: 100% auto;
+">
      <div class="container">
-       <div class="row">
+       <div class="row " >
          <div class="col-md-12 d-md-flex align-items-center">
-           <h2 class="text-black mb-5 mb-md-0 text-center text-md-left">Need a photographer?</h2>
+           <h2 class="text-white mb-5 mb-md-0 text-center text-md-left">Need a photographer? Let's talk.</h2>
            <div class="ml-auto text-center text-md-left">
             <a href="{% url 'contact' %}}" class="btn btn-danger py-3 px-5 rounded">Contact Me</a>
            </div>
