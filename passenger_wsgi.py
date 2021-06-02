@@ -12,4 +12,4 @@ sys.path.insert(0, os.path.dirname(__file__))
 #     response = '\n'.join([message, version])
 #     return [response.encode()]
 
-from artisan_project.wsgi import application
+from photo_portfolio_project.wsgi import application

@@ -21,9 +21,9 @@
             <li class="has-children">
               <a>Photography</a>
               <ul class="dropdown">
-
-                <li><a href="#">Nature</a></li>
-
+                {% for item in categories_specialty %}
+                <li><a href="{% url 'category' item.slug %}">{{ item.name|title }}</a></li>
+                {% endfor %}
               </ul>
             </li>
             <li><a href="{% url 'services' %}">Services</a></li>
