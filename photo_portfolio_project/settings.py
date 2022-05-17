@@ -14,7 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 
-
+DEV = True
 load_dotenv(verbose=True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ["127.0.0.1", "camerainthewild.xyz", "www.camerainthewild.xyz"]
+ALLOWED_HOSTS = ["127.0.0.1", "camerainthewild.pics", "www.camerainthewild.pics"]
 
 
 # Application definition
@@ -81,17 +81,24 @@ WSGI_APPLICATION = 'photo_portfolio_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DATABASE_NAME'),
-        'USER': os.getenv('DATABASE_USER'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'HOST': os.getenv('DATABASE_HOST'),
-        'PORT': '',
+if DEV == True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite',
+            'NAME': os.getenv('DATABASE_NAME'),
+            'USER': os.getenv('DATABASE_USER'),
+            'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+            'HOST': os.getenv('DATABASE_HOST'),
+            'PORT': '',
+        }
+    }
 
 
 # Password validation
@@ -161,6 +168,8 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # import dj_database_url
