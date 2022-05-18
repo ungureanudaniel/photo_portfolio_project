@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'photo_portfolio_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-if DEV == True:
+if os.getenv('DEV') == True:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
